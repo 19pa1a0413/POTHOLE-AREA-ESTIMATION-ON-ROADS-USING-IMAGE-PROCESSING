@@ -1,0 +1,148 @@
+I1=imread('C:\Users\PrudhviAsha\Downloads\Test Image1.jpg');
+z=imfinfo('C:\Users\PrudhviAsha\Downloads\Test Image1.jpg');
+i=z.Height;
+j=z.Width;
+if(i*j<=15925248)
+    mp=16;
+elseif(i*j<=7990272) 
+    mp=8;
+end
+disp(mp);
+p=i/256;
+q=j/256;
+if((p>=1&&p<2)||(q>=1&&q<2))
+    x=1;
+elseif((p>=2&&p<4)||(q>=2&&q<4)) 
+    x=2;
+elseif((p>=4&&p<8)||(q>=4&&q<8)) 
+    x=4;
+elseif((p>=8&&p<16)||(q>=8&&q<16))
+    x=8; 
+elseif((p>=16 && p<32)||(q>=16&&q<32)) 
+    x=16; 
+else x=32;
+end
+I=imresize(I1,[256 256]);
+figure,imshow(I);
+title('Original image');
+Istrech = imadjust(I,stretchlim(I));
+figure,imshow(Istrech);
+title('Contrast stretched image');
+Igray_s = rgb2gray(Istrech);
+figure,imshow(Igray_s,[]);
+title('RGB to gray (contrast stretched) ');
+imwrite(Igray_s,'C:\Users\PrudhviAsha\Desktop\desktop\DIP\b9.jpg');
+D = imread('C:\Users\PrudhviAsha\Desktop\desktop\DIP\b9.jpg');
+figure, imshow(D);
+BW = im2bw(D, graythresh(D));
+CC = bwconncomp(BW);
+L = labelmatrix(CC);
+RGB = label2rgb(L);
+[x1,y1]=getpts;
+title('label 2 rgb');
+figure, imshow(RGB)
+s = regionprops(BW, 'centroid');
+centroids = cat(1, s.Centroid);
+imshow(BW);
+if(x==1)
+    a=256*256;
+elseif(x==2) 
+    a=512*512; 
+elseif(x==4) 
+    a=1024*1024;
+elseif(x==8) 
+    a=2048*2048;
+elseif(x==16) 
+    a=4096*4096;
+else 
+    a=8192*8192;
+end
+b=i*j;
+c=b/a;
+c=c/20;
+d=c*90/100;
+d1=pdist([x1 y1],'euclidean');
+if(mp==8)
+    major=d1*x*d;
+else
+    major=d1*x*d/2;
+end
+disp('Estimated Vertical length of Pothole in cm: ');
+disp(major);
+D = imread('C:\Users\PrudhviAsha\Desktop\desktop\DIP\b9.jpg');
+figure, imshow(D);
+BW = im2bw(D, graythresh(D));
+CC = bwconncomp(BW);
+L = labelmatrix(CC);
+RGB = label2rgb(L);
+[x1,y1]=getpts;
+title('label 2 rgb');
+figure, imshow(RGB)
+s = regionprops(BW, 'centroid');
+centroids = cat(1, s.Centroid);
+imshow(BW);
+if(x==1)
+    a=256*256;
+elseif(x==2) 
+    a=512*512; 
+elseif(x==4) 
+    a=1024*1024;
+elseif(x==8) 
+    a=2048*2048;
+elseif(x==16) 
+    a=4096*4096;
+else 
+    a=8192*8192;
+end
+b=i*j;
+c=b/a;
+c=c/20;
+d=c*90/100;
+d1=pdist([x1 y1],'euclidean');
+if(mp==8)
+    minor=d1*x*d;
+else
+    minor=d1*x*d/2;
+end
+disp('Estimated Horizontal length of Pothole in cm: ');
+disp(minor);
+D = imread('C:\Users\PrudhviAsha\Desktop\desktop\DIP\b9.jpg');
+figure, imshow(D);
+BW = im2bw(D, graythresh(D));
+CC = bwconncomp(BW);
+L = labelmatrix(CC);
+RGB = label2rgb(L);
+[x1,y1]=getpts;
+title('label 2 rgb');
+figure, imshow(RGB)
+s = regionprops(BW, 'centroid');
+centroids = cat(1, s.Centroid);
+imshow(BW);
+if(x==1)
+    a=256*256;
+elseif(x==2) 
+    a=512*512; 
+elseif(x==4) 
+    a=1024*1024;
+elseif(x==8) 
+    a=2048*2048;
+elseif(x==16) 
+    a=4096*4096;
+else 
+    a=8192*8192;
+end
+b=i*j;
+c=b/a;
+c=c/20;
+d=c*90/100;
+d1=pdist([x1 y1],'euclidean');
+if(mp==8)
+    depth=d1*x*d;
+else
+    depth=d1*x*d/2;
+end
+disp('Estimated depth of the hole in cm: ');
+disp(depth);
+area = pi*(major/200)*(minor/200);
+disp('Area of the Pothole in Sq. m: ');
+disp(area)
